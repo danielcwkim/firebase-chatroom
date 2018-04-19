@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import * as firebase from 'firebase';
-import RoomList from './components/RoomList';
+import RoomList from './components/RoomList.js';
 
   var config = {
     apiKey: "AIzaSyC_nLo0GB5mlO3lsfgQ6tP-gGtMT8942QU",
@@ -11,6 +11,7 @@ import RoomList from './components/RoomList';
     storageBucket: "fbasecht.appspot.com",
     messagingSenderId: "164539777268"
 };
+
 firebase.initializeApp(config);
 
 class App extends Component {
