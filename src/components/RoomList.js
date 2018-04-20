@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 
+
 class RoomList extends Component {
   constructor(props) {
     super(props);
@@ -10,41 +11,49 @@ class RoomList extends Component {
     };
 
     this.roomsRef = this.props.firebase.database().ref('rooms');
+
   }
 
-  createRoom(newRoomName) {
-    this.roomsRef.push({
-      name: newRoomName
+  componentDidMount() {
+    this.roomsRef.on('child_added', snapshot => {
+      const room = snapshot.val();  
+      room.key = snapshot.key;
+      this.setState({ rooms: this.state.rooms.concat( room )});
     });
-      this.setState({ newRoomName: ''});
+  }
+
+
+  createRoom(newRoomName) {
+    if (!this.state.newRoomName) {return}
+    this.roomsRef.push({
+      name: this.state.newRoomName,
+    });
+    this.setState({newRoomName:''});
   }
 
   handleChange(e) {
     this.setState({ newRoomName: e.target.value });
   }
 
-  componentDidMount() {
-    this.roomsRef.on('child_added', snapshot => {
-      const room = snapshot.val();
-      room.key = snapshot.key;
-      this.setState({ rooms: this.state.rooms.concat( room )});
-    });
+  selectRoom(room) {
+    this.setState({ activeRoom: room });
   }
+
 
   render(){
     return (
-      <div className ="Room-list">
-        <ul>
-        {this.state.rooms.map((room, index) =>
-          <li key={index}>{room.name}</li>
-        )}
+      <section className ="sidenav">
+        <ul id="room-list">
+          {this.state.rooms.map( (room,index) => (
+            <li key={index} onClick={() => {this.props.setRoom(room)}}>{ room.name }</li>
+            ),
+          )}
         </ul>
-
-        <form onSubmit={ (e) => { e.preventDefault(); this.createRoom(this.state.newRoomName) }}>
-          <input type="text" value={ this.state.newRoomName } placeholder="Create a new room name" onChange= { (e) => this.handleChange(e) } />
-          <input type="submit" />
+        <form id="create-room" onSubmit={ (e) => { e.preventDefault(); this.createRoom(this.state.newRoomName) } }>
+          <input type="text" value={ this.state.newRoomName } placeholder="Create a new room" onChange={ this.handleChange.bind(this) } name="newRoomName"/>
+          <input type="submit" value ="Submit" />
         </form>
-      </div>
+      </section>
     );
   }
 }
