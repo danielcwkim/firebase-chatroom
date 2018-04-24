@@ -62,10 +62,6 @@ class MessageList extends Component {
         )
         }
       </ol>
-      <form id="create-message" onSubmit={ (e) => { e.preventDefault(); this.createMessage(this.state.newMessage) } }>
-        <input type="text" value={ this.state.content } placeholder="Write a message" onChange= { (e) => this.handleChange(e) } />
-        <input type="submit" value="Send" />
-      </form>
       </main>
     );
   }
