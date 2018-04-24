@@ -48,11 +48,8 @@ class MessageList extends Component {
 
   updateDisplayMessages(activeRoom){
     if(!activeRoom) {return}
-<<<<<<< Updated upstream
     this.setState({ messages: this.state.messages.filter(message => message.roomId  === this.props.activeRoom)})
-=======
     this.setState({ displayMessages: this.state.messages.filter(message => message.roomId  === activeRoom.key)})
->>>>>>> Stashed changes
     console.log(activeRoom)
   }
 
@@ -65,11 +62,8 @@ class MessageList extends Component {
             <li key={message.key}>{message.content}</li>
         )
         }
-<<<<<<< Updated upstream
       </ul>
-=======
       </ol>
->>>>>>> Stashed changes
       </main>
     );
   }
