@@ -19,7 +19,7 @@ class MessageList extends Component {
   }
 
   componentDidMount() {
-    this.messagesRef.orderByChild().equalTo().on('child_added', snapshot => {
+    this.messagesRef.on('child_added', snapshot => {
       const message = snapshot.val();
       console.log(message.content);
       message.key = snapshot.key;
@@ -48,8 +48,7 @@ class MessageList extends Component {
 
   updateDisplayMessages(activeRoom){
     if(!activeRoom) {return}
-    this.setState({ messages: this.state.messages.filter(message => message.roomId  === this.props.activeRoom)})
-    this.setState({ displayMessages: this.state.messages.filter(message => message.roomId  === activeRoom.key)})
+    this.setState({ displayMessages : this.state.messages.filter(message => message.roomId  === activeRoom.key)})
     console.log(activeRoom)
   }
 
@@ -57,13 +56,16 @@ class MessageList extends Component {
     return (
       <main id="messages">
       <h2 className="room-name">{this.props.activeRoom ? this.props.activeRoom.name : ''}</h2>
-      <ul id="message-list">
-        {this.state.messages.map((message) =>
-            <li key={message.key}>{message.content}</li>
+      <ol id="message-list">
+        {this.state.displayMessages.map((message) =>
+            <li key={message.key}>{message.content} {message.roomId}</li>
         )
         }
-      </ul>
       </ol>
+      <form id="create-message" onSubmit={ (e) => { e.preventDefault(); this.createMessage(this.state.newMessage) } }>
+        <input type="text" value={ this.state.content } placeholder="Write a message" onChange= { (e) => this.handleChange(e) } />
+        <input type="submit" value="Send" />
+      </form>
       </main>
     );
   }
