@@ -49,7 +49,6 @@ class MessageList extends Component {
   updateDisplayMessages(activeRoom){
     if(!activeRoom) {return}
     this.setState({ displayMessages: this.state.messages.filter(message => message.roomId  === activeRoom.key)})
-    this.setState({ messages: this.state.messages.filter(message => message.roomId  === activeRoom.key)})
     console.log(activeRoom)
   }
 
@@ -58,9 +57,11 @@ class MessageList extends Component {
       <main id="messages">
       <h2 className="room-name">{this.props.activeRoom ? this.props.activeRoom.name : ''}</h2>
       <ul id="message-list">
-        {this.state.messages.map((message) =>
-            <li key={message.key}>{message.content} {message.roomId}</li>
-        )
+        {this.state.displayMessages.map((message) =>
+            <li key={message.key}> 
+              {message.content}
+            </li>
+          )
         }
       </ul>
       </main>

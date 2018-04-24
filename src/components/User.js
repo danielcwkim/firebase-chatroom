@@ -8,7 +8,6 @@ class User extends Component {
     });
   }
 
-  //the sign in button should call Firebase's signInWithPopup method
   signIn() {
     const provider = new this.props.firebase.auth.GoogleAuthProvider();
     this.props.firebase.auth().signInWithPopup( provider );
