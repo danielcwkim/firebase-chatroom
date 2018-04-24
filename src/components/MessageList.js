@@ -19,7 +19,7 @@ class MessageList extends Component {
   }
 
   componentDidMount() {
-    this.messagesRef.orderByChild().equalTo().on('child_added', snapshot => {
+    this.messagesRef.on('child_added', snapshot => {
       const message = snapshot.val();
       console.log(message.content);
       message.key = snapshot.key;
@@ -48,11 +48,8 @@ class MessageList extends Component {
 
   updateDisplayMessages(activeRoom){
     if(!activeRoom) {return}
-<<<<<<< Updated upstream
-    this.setState({ messages: this.state.messages.filter(message => message.roomId  === this.props.activeRoom)})
-=======
     this.setState({ displayMessages: this.state.messages.filter(message => message.roomId  === activeRoom.key)})
->>>>>>> Stashed changes
+    this.setState({ messages: this.state.messages.filter(message => message.roomId  === activeRoom.key)})
     console.log(activeRoom)
   }
 
@@ -62,14 +59,10 @@ class MessageList extends Component {
       <h2 className="room-name">{this.props.activeRoom ? this.props.activeRoom.name : ''}</h2>
       <ul id="message-list">
         {this.state.messages.map((message) =>
-            <li key={message.key}>{message.content}</li>
+            <li key={message.key}>{message.content} {message.roomId}</li>
         )
         }
-<<<<<<< Updated upstream
       </ul>
-=======
-      </ol>
->>>>>>> Stashed changes
       </main>
     );
   }
