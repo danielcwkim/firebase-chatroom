@@ -62,14 +62,6 @@ class MessageList extends Component {
         )
         }
       </ol>
-      <ul id="message-list">
-        {this.state.displayMessages.map((message) =>
-            <li key={message.key}> 
-              {message.content}
-            </li>
-          )
-        }
-      </ul>
       </main>
     );
   }
