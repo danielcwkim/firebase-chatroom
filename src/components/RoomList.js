@@ -16,29 +16,29 @@ class RoomList extends Component {
 
   componentDidMount() {
     this.roomsRef.on('child_added', snapshot => {
-      const room = snapshot.val();
+      const room = snapshot.val();  
       room.key = snapshot.key;
       this.setState({ rooms: this.state.rooms.concat( room )});
     });
   }
 
-
   createRoom(newRoomName) {
-    if (!this.state.newRoomName) {return}
+    if (!this.props.user || !newRoomName) { return }
     this.roomsRef.push({
-      name: this.state.newRoomName,
+      name: newRoomName,
+      creator: this.props.user.email
     });
     this.setState({newRoomName:''});
   }
 
   handleChange(e) {
+    e.preventDefault();
     this.setState({ newRoomName: e.target.value });
   }
 
-  selectRoom(room) {
+  setRoom(room) {
     this.setState({ activeRoom: room });
   }
-
 
   render(){
     return (
